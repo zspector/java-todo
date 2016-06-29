@@ -28,6 +28,7 @@ public class ToDoManager {
 		System.out.println("\nAvailable Commands:");
 		System.out.println("\t show - Shows all To Dos");
 		System.out.println("\t create <ToDo> - Creates a new To Do where <ToDo> is the description");
+		System.out.println("\t complete <ID> - Complete the task with the ID provided");
 		System.out.println("\t help - Show these commands again");
 		System.out.println("\t exit - Exits To Do List 3000");
 	}
@@ -75,6 +76,22 @@ public class ToDoManager {
 					list.addToDo(new ToDo(action));
 				} else {
 					System.out.println("Can not create new To Do. User must provide a description");
+				}
+				break;
+			case "complete":
+				//Complete task
+				int id;
+				try {
+					id = Integer.parseInt(action.trim());
+				} catch (NumberFormatException e) {
+					System.out.println("Not a number");
+					id = 0;
+				}
+					
+				if (id != 0) {
+					list.completeToDo(id);
+				} else {
+					System.out.println("Invalid ID. Cannot complete task.");
 				}
 				break;
 			case "help":
