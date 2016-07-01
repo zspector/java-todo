@@ -4,6 +4,9 @@ import java.util.*;
 public class ToDoManager {
 	private static boolean isRunning;
 	private static ToDoList list;
+	private static enum Command {
+		SHOW, CREATE, COMPLETE, HELP, EXIT
+	}
 
 	public static void main (String[] args) {
 		list = new ToDoList();
@@ -28,6 +31,7 @@ public class ToDoManager {
 		System.out.println("\nAvailable Commands:");
 		System.out.println("\t show - Shows all To Dos");
 		System.out.println("\t create <ToDo> - Creates a new To Do where <ToDo> is the description");
+		System.out.println("\t complete <ID> - Complete the task with the ID provided");
 		System.out.println("\t help - Show these commands again");
 		System.out.println("\t exit - Exits To Do List 3000");
 	}
@@ -66,21 +70,31 @@ public class ToDoManager {
 			action = getAction(Arrays.copyOfRange(parts, 1, parts.length));	
 		}
 
-		switch(command) {
-			case "show":
+		Command commandEnum = Command.valueOf(command.toUpperCase());
+
+		switch(commandEnum) {
+			case SHOW:
 				list.showList();
 				break;
-			case "create":
+			case CREATE:
 				if (action != "") {
 					list.addToDo(new ToDo(action));
 				} else {
 					System.out.println("Can not create new To Do. User must provide a description");
 				}
 				break;
-			case "help":
+			case COMPLETE:
+				try {
+					int id = Integer.parseInt(action.trim());
+					list.completeToDo(id);
+				} catch (NumberFormatException e) {
+					System.out.println("Invalid ID. Cannot complete task.");
+				}
+				break;
+			case HELP:
 				listCommands();
 				break;
-			case "exit":
+			case EXIT:
 				isRunning = false;
 				break;
 			default:
