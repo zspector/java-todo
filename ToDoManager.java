@@ -4,6 +4,9 @@ import java.util.*;
 public class ToDoManager {
 	private static boolean isRunning;
 	private static ToDoList list;
+	private static enum Command {
+		SHOW, CREATE, COMPLETE, HELP, EXIT
+	}
 
 	public static void main (String[] args) {
 		list = new ToDoList();
@@ -67,37 +70,31 @@ public class ToDoManager {
 			action = getAction(Arrays.copyOfRange(parts, 1, parts.length));	
 		}
 
-		switch(command) {
-			case "show":
+		Command commandEnum = Command.valueOf(command.toUpperCase());
+
+		switch(commandEnum) {
+			case SHOW:
 				list.showList();
 				break;
-			case "create":
+			case CREATE:
 				if (action != "") {
 					list.addToDo(new ToDo(action));
 				} else {
 					System.out.println("Can not create new To Do. User must provide a description");
 				}
 				break;
-			case "complete":
-				//Complete task
-				int id;
+			case COMPLETE:
 				try {
-					id = Integer.parseInt(action.trim());
-				} catch (NumberFormatException e) {
-					System.out.println("Not a number");
-					id = 0;
-				}
-					
-				if (id != 0) {
+					int id = Integer.parseInt(action.trim());
 					list.completeToDo(id);
-				} else {
+				} catch (NumberFormatException e) {
 					System.out.println("Invalid ID. Cannot complete task.");
 				}
 				break;
-			case "help":
+			case HELP:
 				listCommands();
 				break;
-			case "exit":
+			case EXIT:
 				isRunning = false;
 				break;
 			default:
