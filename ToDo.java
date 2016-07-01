@@ -28,12 +28,8 @@ public class ToDo {
 		return complete;
 	}
 
-	public boolean equals(int id) {
-		if (id == this.id) {
-			return true;
-		} else {
-			return false;
-		}
+	public boolean hasId(int id) {
+		return id == this.id;
 	}
 
 	public void completeTask() {

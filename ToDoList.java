@@ -26,7 +26,7 @@ public class ToDoList {
 		ToDo currentToDo;
 		for (int i = 0; i < toDoList.size(); i++) {
 			currentToDo = toDoList.get(i);
-			if (currentToDo.equals(id)) {
+			if (currentToDo.hasId(id)) {
 				currentToDo.completeTask();
 				System.out.println(String.format("%s has been completed", currentToDo.getTask()));
 				break;
